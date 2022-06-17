@@ -1,0 +1,8 @@
+.register__field {
+  width: 358px;
+  margin-bottom: 30px;
+}
+
+.register__field:last-of-type {
+  margin-bottom: 0;
+}

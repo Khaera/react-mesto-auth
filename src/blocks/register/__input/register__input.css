@@ -1,0 +1,12 @@
+.register__input {
+  width: 100%;
+  padding-bottom: 7px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #cccccc;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  outline: none;
+}
