@@ -1,0 +1,6 @@
+.element__like-image {
+  cursor: pointer;
+}
+.element__like-image:not(.element__like_active):hover {
+  opacity: 0.5;
+}
