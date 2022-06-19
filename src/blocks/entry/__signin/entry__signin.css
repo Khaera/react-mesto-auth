@@ -1,4 +1,4 @@
-.register__signin {
+.entry__signin {
   display: flex;
   margin-top: 15px;
   font-weight: 400;
@@ -8,7 +8,7 @@
   color: #ffffff;
 }
 
-.register__signin > p {
+.entry__signin > p {
   margin: 0;
   margin-right: 6px;
 }

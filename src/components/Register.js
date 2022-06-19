@@ -1,37 +1,59 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 
-function Register() {
+function Register({ onRegister }) {
+  const [data, setData] = useState({
+    email: "",
+    password: ""
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { email, password } = data;
+    onRegister({ email, password });
+  }
+
   return (
-    <div className="register">
-      <p className="register__title">Регистрация</p>
-      <form className="register__form">
-        <label className="register__field">
+    <div className="entry">
+      <p className="entry__title">Регистрация</p>
+      <form name="register" className="entry__form" onSubmit={handleSubmit}>
+        <label className="entry__field">
           <input
-            className="register__input"
+            value={data.email}
+            onChange={handleChange}
+            className="entry__input"
             name="email"
             type="email"
             required
             placeholder="Email"
           />
         </label>
-        <label className="register__field">
+        <label className="entry__field">
           <input
-            className="register__input"
+            value={data.password}
+            onChange={handleChange}
+            className="entry__input"
             name="password"
             type="password"
             required
             placeholder="Пароль"
-            autoComplete="on"
           />
         </label>
-        <button className="register__submit-button" type="submit">
+        <button className="entry__submit-button" type="submit">
           Зарегистрироваться
         </button>
       </form>
-      <div className="register__signin">
+      <div className="entry__signin">
         <p>Уже зарегистрированы?</p>
-        <Link to="login" className="register__login-link">
+        <Link to="sign-in" className="entry__login-link">
           Войти
         </Link>
       </div>
@@ -39,4 +61,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default withRouter(Register);
