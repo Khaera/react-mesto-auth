@@ -135,7 +135,7 @@ function App() {
       .catch(() => {
         setIsTooltipPopupOpen(true);
         setSuccess(false);
-        setPopupText("Что-то пошло не так! Попробуйте ещё раз");
+        setPopupText("Что-то пошло не так! Попробуйте ещё раз.");
       });
   }
 
