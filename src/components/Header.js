@@ -1,16 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import burgerIcon from "../images/burger-button.svg";
 import closeIcon from "../images/close-button.svg";
 
-function Header({
-  loggedIn,
-  onSignout,
-  userEmail,
-  location,
-  onBurgerClick,
-  isOpen
-}) {
+function Header({ loggedIn, onSignout, userEmail, onBurgerClick, isOpen }) {
   return (
     <header className="header">
       <div className="header__logo"></div>
@@ -20,7 +12,9 @@ function Header({
           className={loggedIn ? "header__button" : "header__button_hidden"}
           onClick={onSignout}
         >
-          {location.pathname === "/" ? "Выйти" : ""}
+          <Route path="/">
+            <Link to="/sign-in">Выйти</Link>
+          </Route>
         </button>
       </div>
       {loggedIn ? (
@@ -36,12 +30,14 @@ function Header({
           />
         </button>
       ) : (
-        <Link
-          className={!loggedIn ? "header__link" : "header__link_hidden"}
-          to={location.pathname === "/sign-up" ? "/sign-in" : "/sign-up"}
-        >
-          {location.pathname === "/sign-up" ? "Войти" : "Регистрация"}
-        </Link>
+        <p className={!loggedIn ? "header__link" : "header__link_hidden"}>
+          <Route path="/sign-up">
+            <Link to="/sign-in">Войти</Link>
+          </Route>
+          <Route path="/sign-in">
+            <Link to="/sign-up">Регистрация</Link>
+          </Route>
+        </p>
       )}
     </header>
   );

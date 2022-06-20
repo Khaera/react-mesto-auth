@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
 
 import MobileBurgerMenu from "./MobileBurgerMenu";
 import Header from "./Header";
@@ -14,15 +14,16 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import * as auth from "../auth";
+import * as auth from "../utils/auth";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 import api from "../utils/api";
 
 function App() {
-  const location = useLocation();
   const history = useHistory();
+  const [successPopupText, setSuccessPopupText] = useState("");
+  const [errorPopupText, setErrorPopupText] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState({
     email: ""
@@ -53,17 +54,25 @@ function App() {
 
   //если залогинены, то редирект на /
   useEffect(() => {
-    history.push("/");
+    if (loggedIn) {
+      history.push("/");
+    } else {
+      return;
+    }
   }, [loggedIn]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, initialCards]) => {
-        setCurrentUser(userData);
-        setCards(initialCards);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([userData, initialCards]) => {
+          setCurrentUser(userData);
+          setCards(initialCards);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      return;
+    }
+  }, [loggedIn]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -111,6 +120,7 @@ function App() {
       .catch(() => {
         setIsTooltipPopupOpen(true);
         setSuccess(false);
+        setErrorPopupText("Неверный логин или пароль.");
       });
   }
 
@@ -120,11 +130,13 @@ function App() {
       .then(() => {
         setIsTooltipPopupOpen(true);
         setSuccess(true);
+        setSuccessPopupText("Вы успешно зарегистрировались!");
         history.push("/sign-in");
       })
       .catch(() => {
         setIsTooltipPopupOpen(true);
         setSuccess(false);
+        setErrorPopupText("Что-то пошло не так! Попробуйте ещё раз");
       });
   }
 
@@ -221,6 +233,8 @@ function App() {
     setIsConfirmDeleteCardPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsTooltipPopupOpen(false);
+    setTimeout(() => setErrorPopupText(""), 700); //очистка текста попапа регистрации с задержкой
+    setTimeout(() => setSuccessPopupText(""), 700); //очистка текста попапа регистрации с задержкой
     setTimeout(() => setSelectedCard({ name: "", link: "" }), 700); //добавление задержки перед обнулением карточки, иначе картинка обнуляется раньше закрытия попапа
   }
 
@@ -230,14 +244,12 @@ function App() {
         loggedIn={loggedIn}
         onSignout={handleSignout}
         userEmail={userEmail}
-        location={location}
         isOpen={isBurgerMenuOpen}
       />
       <Header
         loggedIn={loggedIn}
         onSignout={handleSignout}
         userEmail={userEmail}
-        location={location}
         onBurgerClick={toggleBurgerMenuClick}
         isOpen={isBurgerMenuOpen}
       />
@@ -301,6 +313,8 @@ function App() {
         isOpen={isTooltipPopupOpen}
         onClose={closeAllPopups}
         success={success}
+        successText={successPopupText}
+        errorText={errorPopupText}
       />
       {loggedIn && <Footer />}
     </CurrentUserContext.Provider>
