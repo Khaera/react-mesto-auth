@@ -1,16 +1,10 @@
-import React from "react";
+import { Link, Route } from "react-router-dom";
 
-function MobileBurgerMenu({
-  userEmail,
-  loggedIn,
-  onSignout,
-  location,
-  isOpen
-}) {
+function MobileBurgerMenu({ userEmail, loggedIn, onSignout, isOpen }) {
   return (
     <section
       className={`header__burger-menu ${
-        isOpen ? "header__burger-menu_opened" : ""
+        isOpen && "header__burger-menu_opened"
       }`}
     >
       <p className="header__email">{userEmail.email}</p>
@@ -18,7 +12,9 @@ function MobileBurgerMenu({
         className={loggedIn ? "header__button" : "header__button_hidden"}
         onClick={onSignout}
       >
-        {location.pathname === "/" ? "Выйти" : ""}
+        <Route path="/">
+          <Link to="sign-in">Выйти</Link>
+        </Route>
       </button>
     </section>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import PopupWithForm from "./PopupWithForm";
 
@@ -8,13 +8,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     place: {
       value: "",
       isValid: false,
-      errorMessage: "",
+      errorMessage: ""
     },
     link: {
       value: "",
       isValid: false,
-      errorMessage: "",
-    },
+      errorMessage: ""
+    }
   });
 
   useEffect(() => {
@@ -22,13 +22,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       place: {
         value: "",
         isValid: false,
-        errorMessage: "",
+        errorMessage: ""
       },
       link: {
         value: "",
         isValid: false,
-        errorMessage: "",
-      },
+        errorMessage: ""
+      }
     });
   }, [isOpen]);
 
@@ -43,8 +43,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         ...formValues[name],
         value,
         isValid: validity.valid,
-        errorMessage: validationMessage,
-      },
+        errorMessage: validationMessage
+      }
     }));
   }
 
@@ -53,20 +53,20 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
 
     onAddPlace({
       name: formValues.place.value,
-      link: formValues.link.value,
+      link: formValues.link.value
     });
 
     setFormValues({
       place: {
         value: "",
         isValid: false,
-        errorMessage: "",
+        errorMessage: ""
       },
       link: {
         value: "",
         isValid: false,
-        errorMessage: "",
-      },
+        errorMessage: ""
+      }
     });
   }
 

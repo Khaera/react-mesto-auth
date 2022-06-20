@@ -4,13 +4,16 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  text-align: right;
   color: #ffffff;
-  text-decoration: none;
 }
 
 .header__link:hover {
   opacity: 0.6;
+}
+
+.header__link > a {
+  text-decoration: none;
+  color: #ffffff;
 }
 
 @media screen and (max-width: 767px) {
