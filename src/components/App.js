@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
+import MobileBurgerMenu from "./MobileBurgerMenu";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -20,14 +21,15 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/api";
 
 function App() {
+  const location = useLocation();
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [error, setError] = useState("");
   const [userEmail, setUserEmail] = useState({
     email: ""
   });
   const [success, setSuccess] = useState(false); //успешная регистрация
   const [isLoading, setIsLoading] = useState(false);
+  const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -43,6 +45,16 @@ function App() {
     id: ""
   });
   const [cards, setCards] = useState([]);
+
+  //проверка токена 1 раз при отрисовке страницы
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  //если залогинены, то редирект на /
+  useEffect(() => {
+    history.push("/");
+  }, [loggedIn]);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -75,26 +87,31 @@ function App() {
     setSelectedCard(card);
   }
 
+  function toggleBurgerMenuClick() {
+    setIsBurgerMenuOpen(!isBurgerMenuOpen);
+  }
+
   function handleLogin({ email, password }) {
     auth
       .authorize({ email, password })
       .then((data) => {
         if (!data) {
-          return setError("Что-то пошло не так!");
+          return console.log("Что-то пошло не так!");
         }
 
         if (data.token) {
+          localStorage.setItem("jwt", data.token);
           setUserEmail({
-            email: data.email
+            email: email
           });
           setLoggedIn(true);
-          localStorage.setItem("jwt", data.token);
           history.push("/");
         }
       })
-      .catch((error) =>
-        setError(`Ошибка: ${error} - некорректно заполнено одно из полей`)
-      );
+      .catch(() => {
+        setIsTooltipPopupOpen(true);
+        setSuccess(false);
+      });
   }
 
   function handleRegister({ email, password }) {
@@ -112,9 +129,28 @@ function App() {
   }
 
   function handleSignout() {
-    setLoggedIn(false);
     localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    setUserEmail("");
     history.push("/sign-in");
+    setIsBurgerMenuOpen(false);
+  }
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth
+        .getContent(jwt)
+        .then((response) => {
+          if (response) {
+            setUserEmail({
+              email: response.data.email
+            });
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => console.log(`Что-то пошло не так. Ошибка: ${err}`));
+    }
   }
 
   function handleUpdateUser({ name, about }) {
@@ -190,7 +226,21 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Header loggedIn={loggedIn} onSignout={handleSignout} />
+      <MobileBurgerMenu
+        loggedIn={loggedIn}
+        onSignout={handleSignout}
+        userEmail={userEmail}
+        location={location}
+        isOpen={isBurgerMenuOpen}
+      />
+      <Header
+        loggedIn={loggedIn}
+        onSignout={handleSignout}
+        userEmail={userEmail}
+        location={location}
+        onBurgerClick={toggleBurgerMenuClick}
+        isOpen={isBurgerMenuOpen}
+      />
       <Switch>
         <ProtectedRoute
           exact

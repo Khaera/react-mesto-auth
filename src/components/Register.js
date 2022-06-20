@@ -39,6 +39,7 @@ function Register({ onRegister }) {
         <label className="entry__field">
           <input
             value={data.password}
+            autoComplete="on"
             onChange={handleChange}
             className="entry__input"
             name="password"

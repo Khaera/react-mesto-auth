@@ -4,9 +4,7 @@ import { withRouter } from "react-router-dom";
 function Login({ onLogin }) {
   const [data, setData] = useState({
     email: "",
-    password: "",
-    message: "",
-    error: ""
+    password: ""
   });
 
   function handleChange(e) {
