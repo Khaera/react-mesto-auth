@@ -1,6 +1,6 @@
 {
   "name": "react-mesto-auth",
-  "homepage": "https://khaera.github.io/react-mesto-auth",
+  "homepage": "https://khaera.github.io/react-mesto-auth/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
