@@ -1,0 +1,6 @@
+.entry__form {
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+}

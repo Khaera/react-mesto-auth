@@ -1,0 +1,9 @@
+.entry__login-link {
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.entry__login-link:hover {
+  opacity: 0.6;
+}

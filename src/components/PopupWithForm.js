@@ -19,7 +19,12 @@ function PopupWithForm({
           onClick={onClose}
         />
         <h2 className="popup__title">{title}</h2>
-        <form onSubmit={onSubmit} name={name} className="popup__form">
+        <form
+          onSubmit={onSubmit}
+          name={name}
+          className="popup__form"
+          noValidate
+        >
           {children}
           <button
             disabled={!isValid}
