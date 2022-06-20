@@ -24,7 +24,12 @@ function Register({ onRegister }) {
   return (
     <div className="entry">
       <p className="entry__title">Регистрация</p>
-      <form name="register" className="entry__form" onSubmit={handleSubmit}>
+      <form
+        name="register"
+        className="entry__form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <label className="entry__field">
           <input
             value={data.email}
