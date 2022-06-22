@@ -24,7 +24,7 @@ function Header({ loggedIn, onSignout, userEmail, onBurgerClick, isOpen }) {
           onClick={onBurgerClick}
         >
           <img
-            src={!isOpen ? burgerIcon : closeIcon}
+            src={isOpen ? closeIcon : burgerIcon}
             alt={isOpen ? "Закрыть" : "Открыть"}
             className="header__burger-image"
           />

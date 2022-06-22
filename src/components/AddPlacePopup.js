@@ -73,16 +73,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const isValid = formValues.place.isValid && formValues.link.isValid;
 
   const spanPlaceErrorClassName = `popup__input-error ${
-    formValues.place.errorMessage ? "popup__input-error_active" : ""
+    formValues.place.errorMessage && "popup__input-error_active"
   }`;
   const inputPlaceErrorClassName = `popup__input ${
-    formValues.place.errorMessage ? "popup__input_invalid" : ""
+    formValues.place.errorMessage && "popup__input_invalid"
   }`;
   const spanLinkErrorClassName = `popup__input-error ${
-    formValues.link.errorMessage ? "popup__input-error_active" : ""
+    formValues.link.errorMessage && "popup__input-error_active"
   }`;
   const inputLinkErrorClassName = `popup__input ${
-    formValues.link.errorMessage ? "popup__input_invalid" : ""
+    formValues.link.errorMessage && "popup__input_invalid"
   }`;
 
   return (

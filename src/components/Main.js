@@ -10,7 +10,7 @@ function Main({
   onAddPlace,
   onDeleteClick,
   onCardClick,
-  onCardLike,
+  onCardLike
 }) {
   const currentUser = React.useContext(CurrentUserContext);
 

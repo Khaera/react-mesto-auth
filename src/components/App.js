@@ -55,10 +55,8 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
-    } else {
-      return;
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -68,8 +66,6 @@ function App() {
           setCards(initialCards);
         })
         .catch((error) => console.log(error));
-    } else {
-      return;
     }
   }, [loggedIn]);
 
@@ -117,9 +113,9 @@ function App() {
         }
       })
       .catch(() => {
-        setIsTooltipPopupOpen(true);
         setSuccess(false);
         setPopupText("Неверный логин или пароль.");
+        setIsTooltipPopupOpen(true);
       });
   }
 
@@ -127,15 +123,15 @@ function App() {
     auth
       .register({ email, password })
       .then(() => {
-        setIsTooltipPopupOpen(true);
         setSuccess(true);
         setPopupText("Вы успешно зарегистрировались!");
+        setIsTooltipPopupOpen(true);
         history.push("/sign-in");
       })
       .catch(() => {
-        setIsTooltipPopupOpen(true);
         setSuccess(false);
         setPopupText("Что-то пошло не так! Попробуйте ещё раз.");
+        setIsTooltipPopupOpen(true);
       });
   }
 
@@ -143,8 +139,8 @@ function App() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
     setUserEmail("");
-    history.push("/sign-in");
     setIsBurgerMenuOpen(false);
+    history.push("/sign-in");
   }
 
   function tokenCheck() {
@@ -154,10 +150,10 @@ function App() {
         .getContent(jwt)
         .then((response) => {
           if (response) {
+            setLoggedIn(true);
             setUserEmail({
               email: response.data.email
             });
-            setLoggedIn(true);
           }
         })
         .catch((err) => console.log(`Что-то пошло не так. Ошибка: ${err}`));

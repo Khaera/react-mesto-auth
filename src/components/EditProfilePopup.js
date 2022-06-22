@@ -10,13 +10,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     name: {
       value: "",
       isValid: true,
-      errorMessage: "",
+      errorMessage: ""
     },
     description: {
       value: "",
       isValid: true,
-      errorMessage: "",
-    },
+      errorMessage: ""
+    }
   });
 
   React.useEffect(() => {
@@ -24,13 +24,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       name: {
         value: currentUser.name,
         isValid: true,
-        errorMessage: "",
+        errorMessage: ""
       },
       description: {
         value: currentUser.about,
         isValid: true,
-        errorMessage: "",
-      },
+        errorMessage: ""
+      }
     });
   }, [currentUser, isOpen]);
 
@@ -45,8 +45,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
         ...formValues[name],
         value,
         isValid: validity.valid,
-        errorMessage: validationMessage,
-      },
+        errorMessage: validationMessage
+      }
     }));
   }
 
@@ -54,23 +54,23 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     e.preventDefault();
     onUpdateUser({
       name: formValues.name.value,
-      about: formValues.description.value,
+      about: formValues.description.value
     });
   }
 
   const isValid = formValues.name.isValid && formValues.description.isValid;
 
   const spanNameErrorClassName = `popup__input-error ${
-    !formValues.name.isValid ? "popup__input-error_active" : ""
+    !formValues.name.isValid && "popup__input-error_active"
   }`;
   const inputNameErrorClassName = `popup__input ${
-    formValues.name.errorMessage ? "popup__input_invalid" : ""
+    formValues.name.errorMessage && "popup__input_invalid"
   }`;
   const spanDescriptionErrorClassName = `popup__input-error ${
-    !formValues.description.isValid ? "popup__input-error_active" : ""
+    !formValues.description.isValid && "popup__input-error_active"
   }`;
   const inputDescriptionErrorClassName = `popup__input ${
-    formValues.description.errorMessage ? "popup__input_invalid" : ""
+    formValues.description.errorMessage && "popup__input_invalid"
   }`;
 
   return (
